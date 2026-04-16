@@ -4,7 +4,7 @@ HEIGHT = 500
 #variables for the game
 satalitelis = []
 lineslis = []
-totalsatalites = 10
+totalsatalites = 12
 startime = 0
 totalime = 0
 endtime = 0
@@ -32,7 +32,7 @@ def draw():
         totaltime = time.time() - startime  
         screen.draw.text(str(round(totaltime,1)),(10,10), color = "black")
     else: 
-        screen.draw.text(str(round(totalime,2)),(10,10), color = "Yellow")
+        screen.draw.text(str(round(totaltime,2)),(10,10), color = "black")
 
 # function for mouse click
 def on_mouse_down(pos):
@@ -51,5 +51,4 @@ def on_mouse_down(pos):
 def update():
     pass
 satafun()
-pgzrun.go()
 pgzrun.go()
