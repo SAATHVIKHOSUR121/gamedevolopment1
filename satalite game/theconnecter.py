@@ -4,7 +4,7 @@ HEIGHT = 500
 #variables for the game
 satalitelis = []
 lineslis = []
-totalsatalites = 25
+totalsatalites = 10
 startime = 0
 totalime = 0
 endtime = 0
@@ -31,6 +31,8 @@ def draw():
     if nextsatalitecounter < totalsatalites:
         totaltime = time.time() - startime  
         screen.draw.text(str(round(totaltime,1)),(10,10), color = "black")
+    else: 
+        screen.draw.text(str(round(totalime,2)),(10,10), color = "Yellow")
 
 # function for mouse click
 def on_mouse_down(pos):
@@ -38,12 +40,16 @@ def on_mouse_down(pos):
     if nextsatalitecounter < totalsatalites:
         if satalitelis[nextsatalitecounter].collidepoint(pos):
             if nextsatalitecounter:
-                lineslis.append((satalitelis[nextsatalitecounter-1].pos, satalitelis[nextsatalitecounter-1].pos))
+                lineslis.append((satalitelis[nextsatalitecounter-1].pos, satalitelis[nextsatalitecounter].pos))
             nextsatalitecounter = nextsatalitecounter+1
+        else : 
+            lineslis = []
+            nextsatalitecounter = 0
 
 
 
 def update():
     pass
 satafun()
+pgzrun.go()
 pgzrun.go()
