@@ -1,0 +1,23 @@
+import pgzrun
+WIDTH = 800
+HEIGHT = 475
+player = Actor("playership")
+player.pos = (400,440)
+enemy = []
+def enemies():
+    for i in range (5):
+        e = Actor("enemyship")
+        enemy.append(e)
+        e.pos = (i * 100 + 50,40)
+def draw():
+    screen.blit("spacebg",(0,0))
+    player.draw() 
+    for e in enemy:
+        e.draw()
+def update():
+    if keyboard.a:
+        player.x = player.x - 3
+    if keyboard.d:
+        player.x = player.x + 3
+enemies()
+pgzrun.go()
