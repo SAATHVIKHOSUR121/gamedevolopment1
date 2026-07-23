@@ -1,23 +1,55 @@
-import pgzrun
+import pgzrun, random
 WIDTH = 800
 HEIGHT = 475
 player = Actor("playership")
 player.pos = (400,440)
 enemy = []
+playerhp = 3
+#e = random.randrange(-100, 100)
+bullets = []
 def enemies():
-    for i in range (5):
+    for i in range (8):
         e = Actor("enemyship")
         enemy.append(e)
-        e.pos = (i * 100 + 50,40)
+        e.pos = (i * 100 + 200,40)
+    clock.schedule(enemies, 0.1)
 def draw():
     screen.blit("spacebg",(0,0))
     player.draw() 
     for e in enemy:
         e.draw()
+    for i in bullets:
+        i.draw()
+    screen.draw.text("Your HP remaining = " +str(playerhp), (0,0) )
 def update():
+    global playerhp
     if keyboard.a:
         player.x = player.x - 3
     if keyboard.d:
         player.x = player.x + 3
+    for l in enemy:
+        l.y  = l.y +1
+        l.x  = l.x +random.randrange(-20, 20)
+        if l.y == 800:
+            enemy.remove(l)
+        if l.x <= 0 or l.x >= 800:
+            enemy.remove(l)
+        if player.colliderect(l):
+            enemy.remove(l)
+            playerhp = playerhp - 1
+
+    for v in bullets:
+        v.y = v.y -4
+        for l in enemy:
+            if l.colliderect(v) and v in bullets:
+                bullets.remove(v)
+                enemy.remove(l)
+def on_key_down(key):
+    if key == key.SPACE:
+        bullet = Actor("bluebullets")
+        bullet.x = player.x
+        bullet.y = player.y
+        bullets.append(bullet)
+
 enemies()
 pgzrun.go()
