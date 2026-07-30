@@ -7,22 +7,33 @@ enemy = []
 playerhp = 3
 #e = random.randrange(-100, 100)
 bullets = []
+enemybullet = []
+gameover = False
+score = 0
 def enemies():
     for i in range (8):
         e = Actor("enemyship")
         enemy.append(e)
         e.pos = (i * 100 + 200,40)
-    clock.schedule(enemies, 0.1)
+    enemybullets()
+    clock.schedule(enemies, 3)
+
 def draw():
+    if gameover == True:
+        screen.blit("gameover", (0,0))
+        return
     screen.blit("spacebg",(0,0))
     player.draw() 
     for e in enemy:
         e.draw()
     for i in bullets:
         i.draw()
-    screen.draw.text("Your HP remaining = " +str(playerhp), (0,0) )
+    screen.draw.text("Your HP remaining = " +str(playerhp), (0,0))
+    for x in enemybullet:
+        x.draw()
+    screen.draw.text("Score = " +str(score), (700,0))
 def update():
-    global playerhp
+    global playerhp, gameover, score
     if keyboard.a:
         player.x = player.x - 3
     if keyboard.d:
@@ -44,12 +55,29 @@ def update():
             if l.colliderect(v) and v in bullets:
                 bullets.remove(v)
                 enemy.remove(l)
+                score = score + 1 
+    for x in enemybullet:
+        x.y = x.y +2
+        if x.colliderect(player) and x in enemybullet:
+            enemybullet.remove(x)
+            playerhp = playerhp - 1
+    if playerhp <0:
+        gameover = True
+        
 def on_key_down(key):
     if key == key.SPACE:
         bullet = Actor("bluebullets")
         bullet.x = player.x
         bullet.y = player.y
         bullets.append(bullet)
+def enemybullets():
+    ebullet = Actor("redbullets")
+    enemy1 = random.choice(enemy)
+    ebullet.x = enemy1.x
+    ebullet.y = enemy1.y
+    enemybullet.append(ebullet)
+    clock.schedule(enemybullets, 1.5)
 
 enemies()
+enemybullets()
 pgzrun.go()
