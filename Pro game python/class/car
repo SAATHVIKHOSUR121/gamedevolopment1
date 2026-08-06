@@ -1,0 +1,15 @@
+class Car():
+    def __init__(self, color, speed, fuel, distance, kg):
+        self.color = color
+        self.speed = speed
+        self.fuel = fuel
+        self.distance = distance
+        self.kg = kg
+
+    def display(self):
+        print(self.color, self.speed, self.fuel, self.distance, self.kg)
+
+carl = Car("Red", 10, 100000, 153600, 159883)
+carpet = Car("Blue", 1, 100900, 909090, 123456)
+carl.display()
+carpet.display()
