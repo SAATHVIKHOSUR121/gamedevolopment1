@@ -1,0 +1,22 @@
+class Square():
+    def __init__(self, size, color):
+        self.size = size
+        self.color = color
+    def area(self):
+        print(self.size * self.size)
+    def perimeter(self):
+        print(self.size + self.size + self.size + self.size)
+    def colors (self):
+        print(self.color)
+    def sizes (self):
+        print(self.size)
+square1 = Square(8, "red")
+square1.area()
+square1.perimeter()
+square1.colors()
+square1.sizes()
+square2 = Square(12, "blue")
+square2.area()
+square2.perimeter()
+square2.colors()
+square2.sizes()
