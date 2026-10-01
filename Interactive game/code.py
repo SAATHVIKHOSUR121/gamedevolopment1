@@ -4,6 +4,7 @@ screen = pygame.display.set_mode((800, 500))
 bg = pygame.image.load('images/mariobg.jpg')
 bg = pygame.transform.scale(bg, (800, 500))
 startime = pygame.time.get_ticks()
+longtime = pygame.time.get_ticks()
 font = pygame.font.SysFont('TIMES NEW ROMAN',25)
 class Mario(pygame.sprite.Sprite):
     def __init__(self):
@@ -25,6 +26,14 @@ class Mario(pygame.sprite.Sprite):
             self.rect.y += 1
         if pygame.sprite.spritecollide(self,coingroup, True):
             self.score = self.score + 1
+class Plant(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load('images/marioplant.png')
+        self.image = pygame.transform.scale(self.image,(50,100))
+        self.rect = self.image.get_rect()
+        self.rect.center = [random.randint(0,800), random.randint(0,500)]
+
 class Coin(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
@@ -39,6 +48,8 @@ mario1 = Mario()
 charactergroup = pygame.sprite.Group()
 coingroup = pygame.sprite.Group() 
 charactergroup.add(mario1)
+plantgroup = pygame.sprite.Group()
+
 
 while True:
     currentime = pygame.time.get_ticks()
@@ -55,4 +66,9 @@ while True:
     charactergroup.draw(screen)
     charactergroup.update()
     coingroup.draw(screen)
+    if currentime - longtime > 3000:
+        plant1 = Plant()
+        plantgroup.add(plant1)
+        longtime = currentime
+    plantgroup.draw(screen)
     pygame.display.update()
