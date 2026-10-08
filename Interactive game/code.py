@@ -1,11 +1,14 @@
-import pygame, random
+import pygame, random,  time
 pygame.init()
 screen = pygame.display.set_mode((800, 500))
 bg = pygame.image.load('images/mariobg.jpg')
 bg = pygame.transform.scale(bg, (800, 500))
+bglose = pygame.image.load('images/youlose.png')
+bglose = pygame.transform.scale(bglose, (800,500))
 startime = pygame.time.get_ticks()
 longtime = pygame.time.get_ticks()
 font = pygame.font.SysFont('TIMES NEW ROMAN',25)
+aftertime = pygame.time.get_ticks()
 class Mario(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
@@ -25,7 +28,9 @@ class Mario(pygame.sprite.Sprite):
         if key[pygame.K_s] and self.rect.y < 400:
             self.rect.y += 1
         if pygame.sprite.spritecollide(self,coingroup, True):
-            self.score = self.score + 1
+            self.score = self.score + 10
+        if pygame.sprite.spritecollide( self, plantgroup, True ):
+            self.score = self.score - 10000000
 class Plant(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
@@ -70,5 +75,16 @@ while True:
         plant1 = Plant()
         plantgroup.add(plant1)
         longtime = currentime
+    if currentime - aftertime > 4000 and plantgroup:
+        plant = next(iter(plantgroup))
+        plantgroup.remove(plant)
+        aftertime = currentime
     plantgroup.draw(screen)
+    if mario1.score < 0:
+        screen.blit(bglose, (0,0))
+        pygame.display.update()
+        time.sleep(3)
+        pygame.quit()
+
+        
     pygame.display.update()
