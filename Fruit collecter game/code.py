@@ -7,6 +7,9 @@ starttime = pygame.time.get_ticks()
 currenttime = pygame.time.get_ticks()
 fruits = ['images/pear.png', 'images/orange.png', 'images/banana.png','images/apple.png']
 clock = pygame.time.Clock()
+score = 0
+font = pygame.font.SysFont("Sans Serif", 50)
+
 class Basket(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
@@ -15,11 +18,16 @@ class Basket(pygame.sprite.Sprite):
         self.rect.center = [350,600]
     
     def update(self):
+        global score
         key = pygame.key.get_pressed()
-        if key[pygame.K_a]:
-            self.rect.x-=1
-        if key[pygame.K_d]:
-            self.rect.x+=1
+        if key[pygame.K_a] and self.rect.x  >0:
+            self.rect.x-=2
+        if key[pygame.K_d] and self.rect.x <600:
+            self.rect.x+=2
+        if pygame.sprite.spritecollide(self,fruitgroup,True):
+            score = score + 100000000
+        
+
 class Fruit(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
@@ -27,9 +35,14 @@ class Fruit(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image,(50,50))
         self.rect = self.image.get_rect()
         self.rect.center = [random.randint(20,650), 0]
+    
+
     def update(self):
         self.rect.y+=1
+        if self.rect.y >650:
+            fruitgroup.remove(self)
 fruitgroup = pygame.sprite.Group()
+
 
 
 basket1 = Basket()
@@ -50,6 +63,9 @@ while True:
         starttime = currenttime
     fruitgroup.draw(screen)
     fruitgroup.update()
+    text = font.render("score  = "+str (score), True, "white")
+    screen.blit(text, (0,0))
+
     pygame.display.update()
 
 
